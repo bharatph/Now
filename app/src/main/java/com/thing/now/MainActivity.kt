@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import com.google.firebase.auth.FirebaseAuth
@@ -57,16 +59,21 @@ class MainActivity : AppActivity(), View.OnClickListener {
     }
 
     fun show(message: String, listener: DialogInterface.OnClickListener? = null) {
-        AlertDialog.Builder(this).setPositiveButton("Ok", listener).setMessage(message).create().show()
+        AlertDialog.Builder(this).setPositiveButton("Ok", listener).setOnDismissListener {
+            DialogInterface.OnDismissListener { dialogInterface ->
+                listener?.onClick(dialogInterface, 0)
+            }
+        }.setMessage(message).create().show()
     }
 
 
     fun settleUser(user: User) {
         //dp
-        if (user.dp.isBlank())
-            Picasso.get().load(R.drawable.ic_user).into(userImage)
-        else
-            Picasso.get().load(user.dp).into(userImage)
+        if (user.dp.isNotBlank()) {
+            Picasso.get().load(user.dp)
+                .error(R.drawable.ic_user)
+                .placeholder(R.drawable.ic_user)
+        }
         //name
         userName.text = user.name
         userStatus.text = user.status
@@ -105,10 +112,40 @@ class MainActivity : AppActivity(), View.OnClickListener {
 
         if (isFirstTime) {
             startActivity(Intent(this, OnboardingActivity::class.java))
-            isFirstTime = !isFirstTime
-        }
 
-        var status = NowHelper.loadUser(userUid)?.addOnSuccessListener {
+            FirebaseAuth.getInstance().signInAnonymously()
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        Log.d(MainActivity.TAG, "signInAnonymously:success")
+                        NowHelper.createUser(
+                            FirebaseAuth.getInstance().uid!!,
+                            User(
+                                FirebaseAuth.getInstance().uid!!,
+                                "No name",
+                                "",
+                                "",
+                                ArrayList<String>(),
+                                ArrayList<String>(),
+                                null
+                            )
+                        ).addOnSuccessListener {
+                            isFirstTime = false
+                            loadUser()
+                        }
+                    } else {
+                        Log.w(MainActivity.TAG, "signInAnonymously:failure", task.exception)
+                        show("No Internet, please try again later", DialogInterface.OnClickListener { _, _ ->
+                            finish()
+                        })
+                    }
+                }
+        } else {
+            loadUser()
+        }
+    }
+
+    private fun loadUser() {
+        var status = NowHelper.loadUser(FirebaseAuth.getInstance().currentUser!!.uid)?.addOnSuccessListener {
             val user = it.toObject(User::class.java)
             if (user == null) {
                 show("Restart application, fatal error",

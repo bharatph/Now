@@ -27,7 +27,7 @@
                 app:civ_border_width="2dp"
                 app:civ_border_color="@android:color/white"
                 android:id="@+id/userNowStatus"
-                android:src="@color/colorNow"
+                android:src="@color/colorNotNow"
                 android:layout_width="@dimen/notification_dot_size"
                 android:layout_height="@dimen/notification_dot_size"
                 android:elevation="@dimen/elevation_small"/>
