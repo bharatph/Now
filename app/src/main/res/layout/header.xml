@@ -3,7 +3,7 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
-              android:padding="@dimen/margin_small"
+              android:layout_margin="@dimen/margin_medium"
               android:gravity="center_vertical">
 
     <include
@@ -13,7 +13,7 @@
             layout="@layout/user_item"/>
 
     <ImageButton
-            android:src="@drawable/ic_add_plus_button"
+            android:src="@drawable/ic_rounded_info_button"
             android:layout_width="@dimen/imageButtonSize" android:layout_height="@dimen/imageButtonSize"/>
 
 </LinearLayout>

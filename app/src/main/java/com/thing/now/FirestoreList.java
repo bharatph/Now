@@ -45,6 +45,7 @@ public class FirestoreList<T> extends ObservableArrayMap<T, String> {
                         put(documentChange.getDocument().toObject(classType), documentChange.getDocument().getId());
                         break;
                     case REMOVED:
+                        remove(documentChange.getDocument().toObject(classType));
                         //TODO use bimap
                         break;
                     case MODIFIED:
@@ -57,7 +58,7 @@ public class FirestoreList<T> extends ObservableArrayMap<T, String> {
             @Override
             public void onMapChanged(ObservableMap<T, String> sender, T key) {
                 if (onDeleteListener != null) {
-                    onDeleteListener.onDelete("", key);//FIXME
+                    onDeleteListener.onDelete(sender.get(key), key);//FIXME
                 }
             }
         });

@@ -13,8 +13,45 @@
     <TextView
             android:gravity="center"
             android:text="@string/app_name"
+            android:textStyle="bold"
             android:textSize="100sp"
-            android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <TextView
+            android:gravity="center"
+            android:text="@string/app_tag_line"
+            android:textSize="@dimen/text_small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    <LinearLayout
+            android:layout_marginTop="@dimen/margin_medium"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <EditText
+                android:id="@+id/userNameInput"
+                android:hint="Username"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="@dimen/margin_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        <EditText
+                android:layout_marginTop="@dimen/margin_smallest"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:id="@+id/userPassInput"
+                android:padding="@dimen/margin_medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <Button
+            android:text="Go"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
 </LinearLayout>
