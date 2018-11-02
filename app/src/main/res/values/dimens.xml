@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_medium">16dp</dimen>
+    <dimen name="margin_small">8dp</dimen>
+
+    <dimen name="text_small">16sp</dimen>
+    <dimen name="text_medium">20sp</dimen>
+    <dimen name="text_large">28sp</dimen>
+    <dimen name="text_xlarge">36sp</dimen>
+    <dimen name="text_xxlarge">42sp</dimen>
+
+    <dimen name="notification_dot_size">16dp</dimen>
+    <dimen name="user_image_size">64dp</dimen>
+
+    <dimen name="elevation_small">4dp</dimen>
+    <dimen name="elevation_medium">6dp</dimen>
+    <dimen name="elevation_large">8dp</dimen>
+
+    <dimen name="radius_small">4dp</dimen>
+    <dimen name="radius_medium">8dp</dimen>
+    <dimen name="radius_large">12dp</dimen>
+
+    <dimen name="imageButtonSize">32dp</dimen>
+</resources>

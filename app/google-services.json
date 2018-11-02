@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "223003102413",
+    "firebase_url": "https://now-a020e.firebaseio.com",
+    "project_id": "now-a020e",
+    "storage_bucket": "now-a020e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:223003102413:android:1d017d6c5ff81181",
+        "android_client_info": {
+          "package_name": "com.thing.now"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "223003102413-v7h34rgms4o6pujheft1ga1oh4dbd5vo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1nSdm_IUgHD0cDirIzwovYoRmc43tLPg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

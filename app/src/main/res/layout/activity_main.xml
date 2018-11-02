@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="@dimen/margin_medium"
+        android:paddingEnd="@dimen/margin_medium"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        tools:context=".MainActivity">
+
+    <include layout="@layout/header"/>
+
+    <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/toolbar"
+            android:orientation="horizontal"
+            android:layout_width="match_parent" android:layout_height="wrap_content">
+        <ImageButton
+                android:layout_weight="1"
+                android:src="@drawable/ic_history_clock_button"
+                android:layout_width="0dp" android:layout_height="@dimen/imageButtonSize"/>
+    </LinearLayout>
+
+
+    <RelativeLayout
+            android:padding="@dimen/margin_small"
+            android:layout_weight="1"
+            android:layout_width="match_parent" android:layout_height="0dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/margin_small"
+                android:src="@android:color/white"
+                android:elevation="@dimen/elevation_large"/>
+
+        <LinearLayout
+                android:translationZ="@dimen/elevation_large"
+                android:orientation="vertical"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <EditText
+                    android:hint="@string/event_hint"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"/>
+            <TextView
+                    android:textAllCaps="true"
+                    android:id="@+id/userInformer"
+                    android:text="@string/timer_elapsed_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="3:44"
+                    android:textSize="@dimen/text_xxlarge"
+                    android:id="@+id/nowTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <LinearLayout
+            android:background="@drawable/edit_text_bg"
+            android:layout_width="match_parent" android:layout_height="128dp">
+
+    </LinearLayout>
+
+
+</LinearLayout>

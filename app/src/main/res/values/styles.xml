@@ -1,0 +1,44 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/colorForeground</item>
+        <item name="android:windowBackground">?colorPrimary</item>
+        <item name="android:textViewStyle">@style/AppTheme.TextViewStyle</item>
+        <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
+        <item name="imageButtonStyle">@style/AppTheme.ImageButton</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="AppTheme.TextViewStyle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@color/colorForeground</item>
+    </style>
+
+    <style name="AppTheme.EditTextStyle" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/colorForeground</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColorHint">@color/colorForegroundFade</item>
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="AppTheme.Button" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:textColor">@color/colorForeground</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="AppTheme.ImageButton" parent="Base.Widget.AppCompat.ImageButton">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:tint">@color/colorForeground</item>
+    </style>
+
+</resources>
