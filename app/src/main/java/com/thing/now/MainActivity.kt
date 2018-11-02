@@ -1,33 +1,50 @@
 package com.thing.now
 
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import com.thing.now.adapter.NowFriendsAdapter
 import com.thing.now.model.User
+import kotlinx.android.synthetic.main.header.*
 import kotlinx.android.synthetic.main.now_friends_fragment.*
 import kotlinx.android.synthetic.main.user_item.*
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+
+class MainActivity : AppActivity(), View.OnClickListener {
+
+    companion object {
+        const val TAG = "MainActivity"
+    }
+
     override fun onClick(v: View?) {
         when (v!!.id) {
             R.id.addFriendBtn -> {
-
+                NowHelper.createConnection().addOnSuccessListener {
+                    val shareIntent: Intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, it.id)
+                        type = "text/plain"
+                    }
+                    startActivity(shareIntent)
+                }.addOnFailureListener {
+                    show("Cannot send invite at this moment")
+                }
             }
             R.id.sortBtn -> {
 
+            }
+            R.id.appInfoBtn -> {
+                startActivity(Intent(this, OnboardingActivity::class.java))
             }
         }
 
@@ -39,8 +56,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
     }
 
-    fun updateUI(user: User) {
+    fun show(message: String, listener: DialogInterface.OnClickListener? = null) {
+        AlertDialog.Builder(this).setPositiveButton("Ok", listener).setMessage(message).create().show()
     }
+
 
     fun settleUser(user: User) {
         //dp
@@ -53,18 +72,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         userStatus.text = user.status
     }
 
-    companion object {
-        const val TAG = "MainActivity"
-    }
-
     fun settleOtherUsers() {
         var firestoreUsers = FirestoreList<User>(User::class.java, NowHelper.usersRef)
         var adapter = NowFriendsAdapter(this, firestoreUsers)
         firestoreUsers.setOnAddListener { firestoreId, t ->
             adapter.notifyDataSetChanged()
+            emptyList.visibility = View.GONE
         }
         firestoreUsers.setOnDeleteListener { firestoreId, t ->
             adapter.notifyDataSetChanged()
+            if (firestoreUsers.size == 1) {
+                emptyList.visibility = View.VISIBLE
+            }
         }
         nowFriendsRecyclerView.adapter = adapter
         nowFriendsRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
@@ -84,19 +103,49 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         setContentView(R.layout.activity_main)
 
-        FirebaseAuth.getInstance().signInAnonymously()
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "signInAnonymously:success")
-//                    if (NowHelper.user == null) {
-//                        //startActivity(Intent(this, OnboardingActivity::class.java))
-//                    } else {
-                        settleUser(User())
-                        settleOtherUsers()
-//                    }
-                } else {
-                    Log.w(TAG, "signInAnonymously:failure", task.exception)
+        if (isFirstTime) {
+            startActivity(Intent(this, OnboardingActivity::class.java))
+            isFirstTime = !isFirstTime
+        }
+
+        var status = NowHelper.loadUser(userUid)?.addOnSuccessListener {
+            val user = it.toObject(User::class.java)
+            if (user == null) {
+                show("Restart application, fatal error",
+                    DialogInterface.OnClickListener { dialog, which -> finish() })
+                return@addOnSuccessListener
+            }
+            settleUser(NowHelper.user!!)
+            settleOtherUsers()
+
+            addFriendBtn.setOnClickListener(this)
+            sortBtn.setOnClickListener(this)
+            appInfoBtn.setOnClickListener(this)
+
+            val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+
+            clipboard.addPrimaryClipChangedListener {
+                clipboardFriendIndicator.visibility = View.GONE
+                clipboardFriendIndicator.setOnClickListener(null)
+                val clip = clipboard.primaryClip!!.getItemAt(0).text
+                NowHelper.checkForUser(clip.toString())?.addOnSuccessListener { doc ->
+                    if (doc.exists()) {
+                        clipboardFriendIndicator.visibility = View.VISIBLE
+                        clipboardFriendIndicator.setOnClickListener {
+                            clipboardFriendIndicator.visibility = View.GONE
+                            NowHelper.completeConnection(doc.id)
+                        }
+                    }
                 }
             }
+
+
+        }?.addOnFailureListener {
+            show("Unknown error occured")
+        }
+        if (status == null) {
+            show("Cannot communicate with servers, restart application",
+                DialogInterface.OnClickListener { _, _ -> finish() })
+        }
     }
 }

@@ -12,6 +12,7 @@ open class AppActivity : AppCompatActivity() {
     var isFirstTime = true
     var isDark = false
     var isFontSerif = true
+    var userUid = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +21,7 @@ open class AppActivity : AppCompatActivity() {
             isFirstTime = preferences.getBoolean(getString(R.string.settings_isFirstTime), true)
             isDark = preferences.getBoolean(getString(R.string.settings_isDark), true)
             isFontSerif = preferences.getBoolean(getString(R.string.settings_isFontSerif), true)
+            userUid = preferences.getString(getString(R.string.settings_userUid), "")!!
             initialized = true
         }
     }
@@ -40,6 +42,7 @@ open class AppActivity : AppCompatActivity() {
         editor.putBoolean(getString(R.string.settings_isFirstTime), isFirstTime)
         editor.putBoolean(getString(R.string.settings_isDark), isDark)
         editor.putBoolean(getString(R.string.settings_isFontSerif), isFontSerif)
+        editor.putString(getString(R.string.settings_userUid), userUid)
         editor.apply()
     }
 }

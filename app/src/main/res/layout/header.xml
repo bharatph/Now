@@ -13,6 +13,7 @@
             layout="@layout/user_item"/>
 
     <ImageButton
+            android:id="@+id/appInfoBtn"
             android:src="@drawable/ic_rounded_info_button"
             android:layout_width="@dimen/imageButtonSize" android:layout_height="@dimen/imageButtonSize"/>
 

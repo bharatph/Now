@@ -39,7 +39,7 @@
 
     <style name="AppTheme.ImageButton" parent="Base.Widget.AppCompat.ImageButton">
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:tint">@android:color/black</item>
+        <item name="android:tint">@color/colorForeground</item>
     </style>
 
 </resources>

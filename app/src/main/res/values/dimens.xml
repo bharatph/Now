@@ -11,7 +11,7 @@
     <dimen name="text_xxlarge">42sp</dimen>
 
     <dimen name="notification_dot_size">16dp</dimen>
-    <dimen name="user_image_size">64dp</dimen>
+    <dimen name="user_image_size">48dp</dimen>
 
     <dimen name="elevation_small">4dp</dimen>
     <dimen name="elevation_medium">6dp</dimen>

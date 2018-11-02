@@ -4,4 +4,5 @@
     <string name="settings_isDark" translatable="false">settingsIsDark</string>
     <string name="settings_isFontSerif" translatable="false">settingsIsFontSerif</string>
     <string name="settings_isFirstTime" translatable="false">settingsIsFirstTime</string>
+    <string name="settings_userUid" translatable="false">settingsUserUid</string>
 </resources>
