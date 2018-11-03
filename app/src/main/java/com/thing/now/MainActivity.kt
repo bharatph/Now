@@ -1,11 +1,9 @@
 package com.thing.now
 
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BaseTransientBottomBar
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -19,7 +17,11 @@ import com.thing.now.model.User
 import kotlinx.android.synthetic.main.header.*
 import kotlinx.android.synthetic.main.now_friends_fragment.*
 import kotlinx.android.synthetic.main.user_item.*
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
+import android.text.InputType
+import android.widget.EditText
+import android.widget.Toast
 
 
 class MainActivity : AppActivity(), View.OnClickListener {
@@ -28,9 +30,11 @@ class MainActivity : AppActivity(), View.OnClickListener {
         const val TAG = "MainActivity"
     }
 
+    var adapter: NowFriendsAdapter? = null
+
     override fun onClick(v: View?) {
         when (v!!.id) {
-            R.id.addFriendBtn -> {
+            R.id.sendInviteBtn -> {
                 NowHelper.createConnection().addOnSuccessListener {
                     val shareIntent: Intent = Intent().apply {
                         action = Intent.ACTION_SEND
@@ -42,6 +46,30 @@ class MainActivity : AppActivity(), View.OnClickListener {
                     show("Cannot send invite at this moment")
                 }
             }
+            R.id.addFriendBtn -> {
+                var m_Text = ""
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Title")
+
+                val input = EditText(this)
+                input.inputType = InputType.TYPE_CLASS_TEXT
+                builder.setView(input)
+
+                builder.setPositiveButton(
+                    "OK"
+                ) { dialog, which ->
+                    m_Text = input.text.toString()
+                    NowHelper.completeConnection(m_Text)?.addOnSuccessListener {
+                        Toast.makeText(this, "Friend added", Toast.LENGTH_LONG).show()
+                        adapter?.notifyDataSetChanged()
+                    }
+                }
+                builder.setNegativeButton(
+                    "Cancel"
+                ) { dialog, which -> dialog.cancel() }
+
+                builder.show()
+            }
             R.id.sortBtn -> {
 
             }
@@ -51,8 +79,6 @@ class MainActivity : AppActivity(), View.OnClickListener {
         }
 
     }
-
-    var bottomSheet: BottomSheetBehavior<View>? = null
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
@@ -65,7 +91,6 @@ class MainActivity : AppActivity(), View.OnClickListener {
             }
         }.setMessage(message).create().show()
     }
-
 
     fun settleUser(user: User) {
         //dp
@@ -81,13 +106,13 @@ class MainActivity : AppActivity(), View.OnClickListener {
 
     fun settleOtherUsers() {
         var firestoreUsers = FirestoreList<User>(User::class.java, NowHelper.usersRef)
-        var adapter = NowFriendsAdapter(this, firestoreUsers)
+        adapter = NowFriendsAdapter(this, firestoreUsers)
         firestoreUsers.setOnAddListener { firestoreId, t ->
-            adapter.notifyDataSetChanged()
+            adapter?.notifyDataSetChanged()
             emptyList.visibility = View.GONE
         }
         firestoreUsers.setOnDeleteListener { firestoreId, t ->
-            adapter.notifyDataSetChanged()
+            adapter?.notifyDataSetChanged()
             if (firestoreUsers.size == 1) {
                 emptyList.visibility = View.VISIBLE
             }
@@ -100,13 +125,12 @@ class MainActivity : AppActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
 
 
-//TODO add custom font
-//        CalligraphyConfig.initDefault(
-//            CalligraphyConfig.Builder()
-//                .setDefaultFontPath("fonts/Roboto-RobotoRegular.ttf")
-//                .setFontAttrId(R.attr.fontPath)
-//                .build()
-//        )
+        CalligraphyConfig.initDefault(
+            CalligraphyConfig.Builder()
+                .setDefaultFontPath("fonts/GlacialIndifference-Regular.otf")
+                .setFontAttrId(R.attr.fontPath)
+                .build()
+        )
 
         setContentView(R.layout.activity_main)
 
@@ -155,26 +179,10 @@ class MainActivity : AppActivity(), View.OnClickListener {
             settleUser(NowHelper.user!!)
             settleOtherUsers()
 
+            sendInviteBtn.setOnClickListener(this)
             addFriendBtn.setOnClickListener(this)
             sortBtn.setOnClickListener(this)
             appInfoBtn.setOnClickListener(this)
-
-            val clipboard = this.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-
-            clipboard.addPrimaryClipChangedListener {
-                clipboardFriendIndicator.visibility = View.GONE
-                clipboardFriendIndicator.setOnClickListener(null)
-                val clip = clipboard.primaryClip!!.getItemAt(0).text
-                NowHelper.checkForUser(clip.toString())?.addOnSuccessListener { doc ->
-                    if (doc.exists()) {
-                        clipboardFriendIndicator.visibility = View.VISIBLE
-                        clipboardFriendIndicator.setOnClickListener {
-                            clipboardFriendIndicator.visibility = View.GONE
-                            NowHelper.completeConnection(doc.id)
-                        }
-                    }
-                }
-            }
 
 
         }?.addOnFailureListener {

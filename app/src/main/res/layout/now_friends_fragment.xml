@@ -15,35 +15,35 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_margin="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_medium"
+            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <TextView
+                android:layout_marginStart="@dimen/margin_small"
                 android:text="Friends"
                 android:textStyle="bold"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
-        <Button
-                android:visibility="gone"
-                android:id="@+id/clipboardFriendIndicator"
-                android:textSize="@dimen/text_small"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:textAllCaps="false"
-                android:text="Add Friend?"
-                android:elevation="0dp"
-                android:padding="4dp"
-                android:paddingStart="@dimen/margin_small"
-                android:paddingEnd="@dimen/margin_small"
-                android:backgroundTint="@color/colorNow"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-        <ImageButton
+
+        <android.support.design.widget.FloatingActionButton
+                android:layout_margin="@dimen/margin_small"
+                style="@style/AppTheme.FAB"
+                android:id="@+id/sendInviteBtn"
+                android:src="@drawable/ic_invitation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        <android.support.design.widget.FloatingActionButton
+                android:layout_margin="@dimen/margin_small"
+                style="@style/AppTheme.FAB"
                 android:id="@+id/addFriendBtn"
                 android:src="@drawable/ic_user_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-        <ImageButton
+        <android.support.design.widget.FloatingActionButton
+                android:layout_margin="@dimen/margin_small"
+                style="@style/AppTheme.FAB"
                 android:id="@+id/sortBtn"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:src="@drawable/ic_filter_results_button"

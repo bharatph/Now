@@ -25,13 +25,16 @@
 
     <RelativeLayout
             android:padding="@dimen/margin_medium"
+            android:gravity="center"
             android:layout_weight="1"
             android:layout_width="match_parent" android:layout_height="0dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="@dimen/margin_smallest"
+                android:maxWidth="256dp"
+                android:minWidth="128dp"
+                android:layout_margin="@dimen/margin_medium"
                 android:padding="@dimen/margin_smallest"
                 android:src="@android:color/white"
                 android:elevation="@dimen/elevation_large"/>

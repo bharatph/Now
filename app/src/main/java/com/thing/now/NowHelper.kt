@@ -23,8 +23,8 @@ object NowHelper {
     init {
     }
 
-    fun updateUser() {
-
+    fun updateUser(): Task<Void> {
+        return usersRef.document(uid!!).set(user!!)
     }
 
     fun checkForUser(id: String): Task<DocumentSnapshot>? {
@@ -59,12 +59,41 @@ object NowHelper {
     fun createConnection(): Task<DocumentReference> {
         return connectionsRef.add(Connection(user!!.id, "")).addOnSuccessListener {
             user!!.connections.add(it.id)
+            updateUser()
         }
     }
 
-    fun completeConnection(id: String): Task<Void> {
-        return connectionsRef.document(id).update("user2", user!!.id).addOnSuccessListener {
-            user!!.connections.add(id)
+    fun friendList(): ArrayList<User> {
+        var friends: ArrayList<User> = ArrayList()
+        for (con in user!!.connections) {
+            connectionsRef.document(con).get().addOnSuccessListener {
+                var connection: Connection? = it.toObject(Connection::class.java)
+                if (connection == null) {
+                    return@addOnSuccessListener
+                }
+                var friendId: String = if (connection.user1 != uid) {
+                    connection.user1
+                } else connection.user2
+
+                usersRef.document(friendId).get().addOnSuccessListener {
+                    friends.add(it.toObject(User::class.java)!!)
+                }
+
+            }
+        }
+        return friends
+    }
+
+    fun completeConnection(id: String): Task<Void>? {
+        return if (uid == id) {
+            null
+        } else if (id.contains("/")) {
+            null
+        } else {
+            connectionsRef.document(id).update("user2", user!!.id).addOnSuccessListener {
+                user!!.connections.add(id)
+                updateUser()
+            }
         }
     }
 }

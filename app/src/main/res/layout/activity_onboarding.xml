@@ -43,7 +43,7 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:orientation="horizontal" android:layout_width="match_parent"
-                      android:layout_height="wrap_content">
+                android:layout_height="wrap_content">
             <ImageView android:src="@android:drawable/ic_menu_gallery" android:layout_width="32dp"
                        android:layout_height="wrap_content"/>
             <TextView android:layout_marginStart="@dimen/margin_medium" android:text="@string/onboard_create_events"
@@ -59,11 +59,11 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
+            android:layout_marginTop="@dimen/margin_medium"
             android:id="@+id/onboard_exit"
-            android:text="@string/user_submit_text"
-            android:layout_margin="@dimen/margin_medium"
-            android:layout_gravity="end"
+            style="@style/AppTheme.FAB"
+            android:src="@drawable/ic_check_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
