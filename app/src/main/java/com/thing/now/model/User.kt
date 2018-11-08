@@ -18,4 +18,16 @@ data class User(
         ArrayList<String>(),
         null
     )
+
+    interface OnUserAddListener {
+        fun onUserAdd(user: User)
+    }
+
+    interface OnUserRemoveListener {
+        fun onUserRemove(user: User)
+    }
+
+    interface OnUserModifiedListener {
+        fun onUserModified(user: User)
+    }
 }

@@ -2,6 +2,8 @@
     <string name="app_name">Now!</string>
     <string name="app_tag_line">Collaborate with friends</string>
 
+    <string name="loading">Loading</string>
+
     <string name="onboard_add_friends">Add friends from other social sites</string>
     <string name="onboard_create_events">Create events</string>
     <string name="onboard_notify">Get notified when your friends are doing it</string>
@@ -14,4 +16,9 @@
     <string name="user_submit_text">Go</string>
 
     <string name="no_friends">You have no friends</string>
+
+    <string name="invite_error_msg">Cannot generate invite link</string>
+    <string name="invite_loading">Generating invite link</string>
+
+    <string name="addUser_hint">Enter invite link</string>
 </resources>

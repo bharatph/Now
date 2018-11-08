@@ -4,6 +4,7 @@
         android:id="@+id/bottom_sheet"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/margin_medium"
         android:orientation="vertical"
@@ -13,6 +14,7 @@
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <LinearLayout
+            android:padding="@dimen/margin_smallest"
             android:orientation="horizontal"
             android:layout_margin="@dimen/margin_medium"
             android:gravity="center_vertical"
@@ -27,23 +29,20 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
 
-        <android.support.design.widget.FloatingActionButton
+        <ImageButton
                 android:layout_margin="@dimen/margin_small"
-                style="@style/AppTheme.FAB"
                 android:id="@+id/sendInviteBtn"
                 android:src="@drawable/ic_invitation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-        <android.support.design.widget.FloatingActionButton
+        <ImageButton
                 android:layout_margin="@dimen/margin_small"
-                style="@style/AppTheme.FAB"
                 android:id="@+id/addFriendBtn"
                 android:src="@drawable/ic_user_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
-        <android.support.design.widget.FloatingActionButton
+        <ImageButton
                 android:layout_margin="@dimen/margin_small"
-                style="@style/AppTheme.FAB"
                 android:id="@+id/sortBtn"
                 android:layout_marginStart="@dimen/margin_medium"
                 android:src="@drawable/ic_filter_results_button"
@@ -51,6 +50,12 @@
                 android:layout_height="wrap_content"/>
     </LinearLayout>
 
+    <FrameLayout
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="#eee"
+            android:id="@+id/fragmentOptionContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
     <RelativeLayout android:layout_weight="1" android:layout_width="match_parent" android:layout_height="0dp">
         <LinearLayout
                 android:id="@+id/emptyList"

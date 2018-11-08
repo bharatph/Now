@@ -1,15 +1,21 @@
 package com.thing.now
 
 import android.content.Context
+import android.telecom.Call
 import android.util.Log
+import com.google.android.gms.common.api.internal.TaskUtil
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.thing.now.model.Connection
+import com.thing.now.model.Event
 import com.thing.now.model.User
 import java.lang.Exception
+import java.util.concurrent.*
+import javax.xml.datatype.DatatypeConstants.SECONDS
+
 
 object NowHelper {
     val TAG = "NowHelper"
@@ -34,6 +40,7 @@ object NowHelper {
             null
         }
     }
+
 
     fun loadUser(uid: String): Task<DocumentSnapshot>? {
         return try {
@@ -82,6 +89,13 @@ object NowHelper {
             }
         }
         return friends
+    }
+
+    fun getUserFromConnection(connectionId: String): User.OnUserAddListener {
+        return object : User.OnUserAddListener {
+            override fun onUserAdd(user: User) {
+            }
+        }
     }
 
     fun completeConnection(id: String): Task<Void>? {

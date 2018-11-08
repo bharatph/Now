@@ -11,7 +11,7 @@
         <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="imageButtonStyle">@style/AppTheme.ImageButton</item>
-        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentStatus">false</item>
     </style>
 
     <style name="AppTheme.TextViewStyle" parent="TextAppearance.AppCompat.Body1">

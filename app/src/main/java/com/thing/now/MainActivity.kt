@@ -3,8 +3,11 @@ package com.thing.now
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -22,9 +25,20 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 import android.text.InputType
 import android.widget.EditText
 import android.widget.Toast
+import com.thing.now.fragment.AddUserFragment
+import com.thing.now.fragment.InviteFragment
+import java.util.concurrent.Callable
+import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorCompletionService
+import java.util.concurrent.ExecutorService
 
 
-class MainActivity : AppActivity(), View.OnClickListener {
+class MainActivity : AppActivity(), View.OnClickListener, InviteFragment.OnFragmentInteractionListener, User.OnUserAddListener {
+    override fun onUserAdd(user: User) {
+    }
+
+    override fun onFragmentInteraction(uri: Uri) {
+    }
 
     companion object {
         const val TAG = "MainActivity"
@@ -33,51 +47,25 @@ class MainActivity : AppActivity(), View.OnClickListener {
     var adapter: NowFriendsAdapter? = null
 
     override fun onClick(v: View?) {
+        supportFragmentManager.popBackStack()
         when (v!!.id) {
             R.id.sendInviteBtn -> {
-                NowHelper.createConnection().addOnSuccessListener {
-                    val shareIntent: Intent = Intent().apply {
-                        action = Intent.ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, it.id)
-                        type = "text/plain"
-                    }
-                    startActivity(shareIntent)
-                }.addOnFailureListener {
-                    show("Cannot send invite at this moment")
-                }
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.fragmentOptionContainer, InviteFragment.newInstance("", ""))
+                    .addToBackStack("stack")
+                    .commit()
             }
             R.id.addFriendBtn -> {
-                var m_Text = ""
-                val builder = AlertDialog.Builder(this)
-                builder.setTitle("Title")
-
-                val input = EditText(this)
-                input.inputType = InputType.TYPE_CLASS_TEXT
-                builder.setView(input)
-
-                builder.setPositiveButton(
-                    "OK"
-                ) { dialog, which ->
-                    m_Text = input.text.toString()
-                    NowHelper.completeConnection(m_Text)?.addOnSuccessListener {
-                        Toast.makeText(this, "Friend added", Toast.LENGTH_LONG).show()
-                        adapter?.notifyDataSetChanged()
-                    }
-                }
-                builder.setNegativeButton(
-                    "Cancel"
-                ) { dialog, which -> dialog.cancel() }
-
-                builder.show()
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.fragmentOptionContainer, AddUserFragment.newInstance("", ""))
+                    .commit()
             }
             R.id.sortBtn -> {
-
             }
             R.id.appInfoBtn -> {
                 startActivity(Intent(this, OnboardingActivity::class.java))
             }
         }
-
     }
 
     override fun attachBaseContext(newBase: Context?) {
