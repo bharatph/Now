@@ -1,28 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:padding="@dimen/margin_medium"
-              android:orientation="vertical"
-              tools:context=".fragment.InviteFragment">
-    <TextView
-            android:textAlignment="center"
-            android:textSize="@dimen/text_large"
-            android:id="@+id/inviteLink"
-            android:text="@string/invite_loading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
 
-    <LinearLayout
-            android:id="@+id/inviteOptionContainer"
-            android:visibility="gone"
-            android:layout_margin="@dimen/margin_medium"
-            android:gravity="end"
-            android:layout_width="match_parent" android:layout_height="wrap_content">
-        <ImageButton
-                android:id="@+id/inviteCopyBtn"
-                android:src="@drawable/ic_copy_content"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-    </LinearLayout>
-</LinearLayout>
+<TextView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:textAlignment="center"
+        android:textSize="@dimen/text_large"
+        android:id="@+id/inviteLink"
+        android:text="@string/invite_loading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_medium"
+        tools:context=".fragment.InviteFragment"/>

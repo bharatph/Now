@@ -9,11 +9,11 @@
               android:orientation="horizontal">
 
     <RelativeLayout
-            android:layout_margin="@dimen/margin_smallest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
         <de.hdodenhof.circleimageview.CircleImageView
+                android:visibility="gone"
                 android:id="@+id/userImage"
                 android:src="@drawable/ic_user"
                 android:layout_width="@dimen/user_image_size"
@@ -21,6 +21,7 @@
                 android:elevation="@dimen/elevation_medium"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_margin="@dimen/margin_medium"
                 android:translationZ="@dimen/elevation_large"
                 android:layout_alignTop="@id/userImage"
                 android:layout_alignEnd="@id/userImage"
@@ -41,9 +42,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content">
         <TextView android:id="@+id/userName"
+                  android:fontFamily="sans-serif-light"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
         <TextView android:id="@+id/userStatus"
+                  android:fontFamily="sans-serif-thin"
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"/>
     </LinearLayout>

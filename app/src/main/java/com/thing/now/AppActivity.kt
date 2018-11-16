@@ -2,8 +2,13 @@ package com.thing.now
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
+import android.text.InputType
+import android.widget.EditText
+import android.widget.Toast
 
 @SuppressLint("Registered")
 open class AppActivity : AppCompatActivity() {
@@ -24,6 +29,20 @@ open class AppActivity : AppCompatActivity() {
         }
     }
 
+    fun show(
+        message: String,
+        listener: DialogInterface.OnClickListener? = null,
+        dismissListener: DialogInterface.OnDismissListener? = null
+    ) {
+        AlertDialog.Builder(this).setPositiveButton("Ok", listener)
+            .setOnDismissListener(dismissListener)
+            .setMessage(message).create().show()
+    }
+
+    fun toast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
     fun toggleTheme() {
         isDark = !isDark
         recreate()
@@ -34,12 +53,12 @@ open class AppActivity : AppCompatActivity() {
         recreate()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
+        super.onPause()
         val editor = getSharedPreferences(getString(R.string.settings_pref_file), Context.MODE_PRIVATE).edit()
         editor.putBoolean(getString(R.string.settings_isFirstTime), isFirstTime)
         editor.putBoolean(getString(R.string.settings_isDark), isDark)
         editor.putBoolean(getString(R.string.settings_isFontSerif), isFontSerif)
-        editor.apply()
+        editor.commit()
     }
 }

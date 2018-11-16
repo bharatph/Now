@@ -3,16 +3,21 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:orientation="horizontal"
+              android:padding="@dimen/margin_medium"
               android:layout_margin="@dimen/margin_medium"
               android:gravity="center_vertical">
 
-    <include
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+
+    <TextView
+            android:id="@+id/userName"
+            android:text="@string/default_user_name"
             android:layout_weight="1"
-            layout="@layout/user_item"/>
+            android:fontFamily="sans-serif-light"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
 
     <ImageButton
+            android:padding="@dimen/margin_medium"
             android:id="@+id/appInfoBtn"
             android:tint="@color/colorForegroundFade"
             android:src="@drawable/ic_rounded_info_button"

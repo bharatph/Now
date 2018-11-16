@@ -9,6 +9,7 @@
     <dimen name="text_large">28sp</dimen>
     <dimen name="text_xlarge">36sp</dimen>
     <dimen name="text_xxlarge">42sp</dimen>
+    <dimen name="text_xxxlarge">56sp</dimen>
 
     <dimen name="notification_dot_size">16dp</dimen>
     <dimen name="user_image_size">48dp</dimen>

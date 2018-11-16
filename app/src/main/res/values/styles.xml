@@ -11,11 +11,12 @@
         <item name="editTextStyle">@style/AppTheme.EditTextStyle</item>
         <item name="buttonStyle">@style/AppTheme.Button</item>
         <item name="imageButtonStyle">@style/AppTheme.ImageButton</item>
-        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">#000</item>
     </style>
 
     <style name="AppTheme.TextViewStyle" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/colorForeground</item>
     </style>
 
