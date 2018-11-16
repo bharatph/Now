@@ -130,14 +130,23 @@ class MainActivity : AppActivity(), View.OnClickListener,
 
                             //rewire click
                             circleTimer.setOnClickListener {
-                                timer.cancel()
-                                nowTimer.text = getString(R.string.start_timer)
-                                userStatus.text = getString(R.string.user_status_idle)
 
-                                NowHelper.setEventEndDate(eventRef.id, Date())
+                                val callback = NowHelper.setEventEndDate(eventRef.id, Date())
+                                if (callback == null) {
+                                    toast("Cannot stop timer, try again later")
+                                    return@setOnClickListener
+                                }
+                                callback.addOnSuccessListener {
+                                    timer.cancel()
+                                    nowTimer.text = getString(R.string.start_timer)
+                                    userStatus.text = getString(R.string.user_status_idle)
 
-                                //revert back to old click state
-                                circleTimer.setOnClickListener(this@MainActivity)
+                                    //revert back to old click state
+                                    circleTimer.setOnClickListener(this@MainActivity)
+                                }.addOnFailureListener {
+                                    toast("Network error, try again later")
+                                }
+
                             }
 
                         }.addOnFailureListener {
