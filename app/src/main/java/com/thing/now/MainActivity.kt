@@ -22,7 +22,6 @@ import com.thing.now.fragment.InviteFragment
 import com.thing.now.fragment.OnboardingFragment
 import kotlinx.android.synthetic.main.circle_timer.*
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
-import io.grpc.Deadline.after
 import java.util.*
 import kotlin.concurrent.timerTask
 
@@ -118,8 +117,8 @@ class MainActivity : AppActivity(), View.OnClickListener,
                             toast("Retreival error")
                             return@setPositiveButton
                         }
-                        callback.addOnSuccessListener {
-                            //TODO upload start date
+                        callback.addOnSuccessListener { eventRef ->
+                            userStatus.text = str
                             var i = 0
                             val timer = Timer().apply {
                                 scheduleAtFixedRate(timerTask {
@@ -131,9 +130,13 @@ class MainActivity : AppActivity(), View.OnClickListener,
 
                             //rewire click
                             circleTimer.setOnClickListener {
-                                //TODO upload end date
                                 timer.cancel()
                                 nowTimer.text = getString(R.string.start_timer)
+                                userStatus.text = getString(R.string.user_status_idle)
+
+                                NowHelper.setEventEndDate(eventRef.id, Date())
+
+                                //revert back to old click state
                                 circleTimer.setOnClickListener(this@MainActivity)
                             }
 

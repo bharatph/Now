@@ -1,9 +1,5 @@
 package com.thing.now
 
-import android.content.Context
-import android.telecom.Call
-import android.util.Log
-import com.google.android.gms.common.api.internal.TaskUtil
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
@@ -14,10 +10,6 @@ import com.thing.now.model.Event
 import com.thing.now.model.User
 import java.lang.Exception
 import java.util.*
-import java.util.concurrent.*
-import javax.xml.datatype.DatatypeConstants.SECONDS
-import kotlin.concurrent.thread
-import kotlin.concurrent.timerTask
 
 
 object NowHelper {
@@ -43,6 +35,30 @@ object NowHelper {
                 eventsRef.add(event).addOnSuccessListener {
                     user!!.eventHistory.add(it.id)
                     updateUser() //FIXME this should return the handle
+                }
+            }
+        }
+    }
+
+    fun updateEvent(eventId: String, event: Event): Task<Void>? {
+        return when {
+            eventId.isEmpty() -> null
+            else -> eventsRef.document(eventId).set(event)
+        }
+    }
+
+    fun setEventEndDate(eventId: String, endDate: Date): Task<DocumentSnapshot>? {
+        return when {
+            eventId.isEmpty() -> null
+            else -> {
+                eventsRef.document(eventId).get().addOnSuccessListener {
+                    val event = it.toObject(Event::class.java) //FIXME create outer handle
+                    if (event == null) {
+                        //FIXME handle this error event
+                        return@addOnSuccessListener
+                    }
+                    event.endedOn = endDate
+                    updateEvent(eventId, event) //FIXME this must be the return task
                 }
             }
         }
