@@ -100,15 +100,6 @@ object NowHelper {
         return usersRef.document(uid!!).set(user!!)
     }
 
-    fun checkForUser(id: String): Task<DocumentSnapshot>? {
-        return try {
-            usersRef.document(id).get()
-        } catch (e: Exception) {
-            null
-        }
-    }
-
-
     fun loadUser(uid: String): Task<DocumentSnapshot>? {
         return try {
             usersRef.document(uid).get().addOnSuccessListener {

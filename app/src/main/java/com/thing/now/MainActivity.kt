@@ -30,9 +30,10 @@ import kotlin.concurrent.timerTask
 
 class MainActivity : AppActivity(), View.OnClickListener,
     User.OnUserAddListener, UserAddFragment.OnUserResolveListener {
+
     override fun onUserResolve(enableBtn: Boolean) {
         if (enableBtn) {
-            settleOtherUsers()
+            settleFriends()
         }
     }
 
@@ -188,10 +189,13 @@ class MainActivity : AppActivity(), View.OnClickListener,
         userName.text = if (user.name.isEmpty()) getString(R.string.default_user_name) else user.name
         userStatus.text = if (user.status.isEmpty()) getString(R.string.user_status_idle) else user.status
         settleTasks()
+        load(false)
     }
 
-    private fun settleOtherUsers() {
+    private fun settleFriends() {
+        loadFriends()
         NowHelper.friendList {
+            loadFriends(false)
             if (it == null) {
                 emptyList.visibility = View.VISIBLE
                 return@friendList
@@ -257,13 +261,18 @@ class MainActivity : AppActivity(), View.OnClickListener,
         //info page available even while loading
         appInfoBtn.setOnClickListener(this)
         setFinishOnTouchOutside(true)
-        load(true)
+        load()
         if (isFirstTime) userOnboard() else loadUser()
     }
 
-    fun load(shouldLoad: Boolean) {
-        progressBar.isIndeterminate = shouldLoad
-        progressBar.visibility = if (shouldLoad) View.VISIBLE else View.GONE
+    fun load(shouldLoadUser: Boolean = true) {
+        progressBar.isIndeterminate = shouldLoadUser
+        progressBar.visibility = if (shouldLoadUser) View.VISIBLE else View.GONE
+    }
+
+    fun loadFriends(shouldLoadFriends: Boolean = true) {
+        friendsProgressBar.isIndeterminate = shouldLoadFriends
+        friendsProgressBar.visibility = if (shouldLoadFriends) View.VISIBLE else View.GONE
     }
 
     private fun loadUser() {
@@ -271,13 +280,13 @@ class MainActivity : AppActivity(), View.OnClickListener,
             ?.addOnSuccessListener {
                 val user = it.toObject(User::class.java)
                 if (user == null) {
-                    load(false)
+                    load()
                     show(getString(R.string.app_fatal_error),
                         DialogInterface.OnClickListener { dialog, which -> finish() })
                     return@addOnSuccessListener
                 }
                 settleUser(NowHelper.user!!)
-                settleOtherUsers()
+                settleFriends()
 
                 //register clicks
                 userName.setOnClickListener(this)
@@ -285,13 +294,12 @@ class MainActivity : AppActivity(), View.OnClickListener,
                 addFriendBtn.setOnClickListener(this)
                 sortBtn.setOnClickListener(this)
                 circleTimer.setOnClickListener(this)
-                load(false)
             }?.addOnFailureListener {
-                load(false)
+                load()
                 show(getString(R.string.app_unknown_error))
             }
         if (status == null) {
-            load(false)
+            load()
             show(getString(R.string.app_network_unreachable_error),
                 DialogInterface.OnClickListener { _, _ -> finish() })
         }

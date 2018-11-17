@@ -75,6 +75,14 @@
                     android:text="@string/no_friends" android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
         </LinearLayout>
+
+        <ProgressBar
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:id="@+id/friendsProgressBar"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
         <android.support.v7.widget.RecyclerView
                 android:id="@+id/nowFriendsRecyclerView"
                 android:layout_width="match_parent"
