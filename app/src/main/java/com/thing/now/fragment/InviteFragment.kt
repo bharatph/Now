@@ -20,17 +20,22 @@ import android.widget.Toast
 
 class InviteFragment : Fragment() {
 
+    fun linkToClipboard(link: String?) {
+        val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+        val clip = ClipData.newPlainText("invite key", link)
+        clipboard?.primaryClip = clip
+    }
+
+
     fun output(link: String?) {
         if (isVisible) {
-            inviteLink.text = if (link == null) context!!.getString(R.string.invite_error_msg) else link
+            inviteLink.text = link ?: context!!.getString(R.string.invite_error_msg)
 
             if (link != null) {
                 inviteLink.setOnClickListener {
-                    val clipboard = context?.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
-                    val clip = ClipData.newPlainText("invite key", link)
-                    clipboard?.primaryClip = clip
-                    Toast.makeText(context, "Key copied to clipboard", Toast.LENGTH_SHORT).show()
-                    activity?.supportFragmentManager?.popBackStack()
+                    linkToClipboard(link)
+                    inviteLink.text = getString(R.string.invite_key_copied)
+//                    activity?.supportFragmentManager?.popBackStack()
                 }
             }
         }

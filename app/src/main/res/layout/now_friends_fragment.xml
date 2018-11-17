@@ -11,21 +11,20 @@
         app:behavior_hideable="false"
         app:behavior_peekHeight="128dp"
         android:background="@drawable/drawer_bg"
-        android:elevation="@dimen/margin_medium"
         app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
         <TextView
                 android:layout_marginStart="@dimen/margin_small"
-                android:text="Friends"
+                android:text="@string/now_fragment_friends"
                 android:textStyle="bold"
                 android:layout_weight="1"
                 android:layout_width="0dp"
@@ -57,7 +56,9 @@
             android:id="@+id/fragmentOptionContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-    <RelativeLayout android:layout_weight="1" android:layout_width="match_parent" android:layout_height="0dp">
+    <RelativeLayout android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
         <LinearLayout
                 android:visibility="gone"
                 android:id="@+id/emptyList"

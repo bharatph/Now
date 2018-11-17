@@ -12,9 +12,15 @@
             layout="@layout/now_friends_fragment"/>
 
     <FrameLayout
-            android:elevation="@dimen/margin_medium"
             android:id="@+id/onboardingFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
+
+    <ProgressBar
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:id="@+id/progressBar"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
 </android.support.design.widget.CoordinatorLayout>

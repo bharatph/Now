@@ -6,7 +6,6 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.thing.now.model.Connection
-import com.thing.now.model.Event
 import com.thing.now.model.User
 import java.lang.Exception
 import java.util.*
@@ -20,46 +19,79 @@ object NowHelper {
 
     var usersRef = FirebaseFirestore.getInstance().collection("users")
     var connectionsRef = FirebaseFirestore.getInstance().collection("connections")
-    var eventsRef = FirebaseFirestore.getInstance().collection("events")
+//    var eventsRef = FirebaseFirestore.getInstance().collection("events")
 
     init {
     }
 
-    fun addEvent(string: String): Task<DocumentReference>? {
-        var event = Event(string, Date(), null)
+//    fun addEvent(string: String): Task<DocumentReference>? {
+//        var task = Task(string, Date(), null)
+//        return when {
+//            string.isEmpty() -> {
+//                null
+//            }
+//            else -> {
+//                eventsRef.add(task).addOnSuccessListener {
+//                    user!!.eventHistory.add(it.id)
+//                    updateUser() //FIXME this should return the handle
+//                }
+//            }
+//        }
+//    }
+//
+//    fun updateEvent(eventId: String, task: Task): Task<Void>? {
+//        return when {
+//            eventId.isEmpty() -> null
+//            else -> eventsRef.document(eventId).set(task)
+//        }
+//    }
+//
+//    fun setEventEndDate(eventId: String, endDate: Date): Task<DocumentSnapshot>? {
+//        return when {
+//            eventId.isEmpty() -> null
+//            else -> {
+//                eventsRef.document(eventId).get().addOnSuccessListener {
+//                    val task = it.toObject(Task::class.java) //FIXME create outer handle
+//                    if (task == null) {
+//                        //FIXME handle this error task
+//                        return@addOnSuccessListener
+//                    }
+//                    task.endedOn = endDate
+//                    updateEvent(eventId, task) //FIXME this must be the return task
+//                }
+//            }
+//        }
+//    }
+
+
+    fun startTask(taskTitle: String): Task<Void>? {
         return when {
-            string.isEmpty() -> {
-                null
-            }
+            taskTitle.isEmpty() -> null
             else -> {
-                eventsRef.add(event).addOnSuccessListener {
-                    user!!.eventHistory.add(it.id)
-                    updateUser() //FIXME this should return the handle
-                }
+                user!!.task = com.thing.now.model.Task(taskTitle, Date(), null)
+                updateUser()
             }
         }
     }
 
-    fun updateEvent(eventId: String, event: Event): Task<Void>? {
+    //null indicates no task is running
+    fun timeElapsed(): Long? {
+        val elapsed = Date().time - user!!.task!!.startedOn.time
         return when {
-            eventId.isEmpty() -> null
-            else -> eventsRef.document(eventId).set(event)
+            user!!.task == null -> null
+            elapsed > 3600000 -> null
+            user!!.task!!.endedOn != null -> null
+            else -> elapsed
         }
     }
 
-    fun setEventEndDate(eventId: String, endDate: Date): Task<DocumentSnapshot>? {
+    fun endTask(): Task<Void>? {
+        val endDate = Date()
         return when {
-            eventId.isEmpty() -> null
+            user!!.task == null -> null
             else -> {
-                eventsRef.document(eventId).get().addOnSuccessListener {
-                    val event = it.toObject(Event::class.java) //FIXME create outer handle
-                    if (event == null) {
-                        //FIXME handle this error event
-                        return@addOnSuccessListener
-                    }
-                    event.endedOn = endDate
-                    updateEvent(eventId, event) //FIXME this must be the return task
-                }
+                user!!.task?.endedOn = endDate
+                updateUser()
             }
         }
     }

@@ -5,6 +5,7 @@ data class User(
     var name: String,
     var status: String,
     var dp: String,
+    var task: Task?,
     val connections: ArrayList<String>,
     val eventHistory: ArrayList<String>
 ) {
@@ -13,6 +14,7 @@ data class User(
         "Name",
         "Topic",
         "",
+        null,
         ArrayList<String>(),
         ArrayList<String>()
     )
