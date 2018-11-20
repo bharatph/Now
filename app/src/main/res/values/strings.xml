@@ -39,16 +39,21 @@
     <string name="start_timer">Start</string>
     <string name="friends_menu_tag">FRIENDS_MENU</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="user_add_unknow_error">Unknown error occurred</string>
     <string name="invite_key_copied">Key copied to clipboard</string>
     <string name="now_fragment_friends">Friends</string>
     <string name="task_name_hint">Default value is Something</string>
     <string name="task_default_name">Something</string>
     <string name="task_invalid">Invalid task</string>
-    <string name="task_start">Start task</string>
+    <string name="task_start">What are doing now?</string>
     <string name="task_unknown_error">Retreival error</string>
     <string name="task_stop_error">Cannot stop timer, try again later</string>
     <string name="task_network_error">Network error, try again later</string>
+    <string name="loading_main">Loading</string>
+    <string name="confirm_task_end">Do you really want to stop?</string>
+    <string name="reset_user">Reset User</string>
+    <string name="acknowledgements">Acknowledgements</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/bottomFrameLayout"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="@dimen/peek_height"
+        android:background="@drawable/drawer_bg"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginEnd="@dimen/margin_medium"
+        android:elevation="@dimen/elevation_small"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>

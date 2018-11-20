@@ -64,6 +64,7 @@ object NowHelper {
 //    }
 
 
+
     fun startTask(taskTitle: String): Task<Void>? {
         return when {
             taskTitle.isEmpty() -> null
@@ -76,12 +77,12 @@ object NowHelper {
 
     //null indicates no task is running
     fun timeElapsed(): Long? {
-        val elapsed = Date().time - user!!.task!!.startedOn.time
         return when {
             user!!.task == null -> null
-            elapsed > 3600000 -> null
+            user!!.task == null -> return null
             user!!.task!!.endedOn != null -> null
-            else -> elapsed
+            Date().time - user!!.task!!.startedOn.time > 3600000 -> null
+            else -> Date().time - user!!.task!!.startedOn.time
         }
     }
 

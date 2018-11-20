@@ -19,11 +19,11 @@ data class User(
         ArrayList<String>()
     )
 
-    interface OnUserAddListener {
+    interface OnUserAddedListener {
         fun onUserAdd(user: User)
     }
 
-    interface OnUserRemoveListener {
+    interface OnUserRemovedListener {
         fun onUserRemove(user: User)
     }
 

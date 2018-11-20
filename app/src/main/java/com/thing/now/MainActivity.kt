@@ -14,13 +14,12 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.google.firebase.auth.FirebaseAuth
 import com.thing.now.adapter.NowFriendsAdapter
+import com.thing.now.fragment.*
 import com.thing.now.model.User
 import kotlinx.android.synthetic.main.header.*
-import kotlinx.android.synthetic.main.now_friends_fragment.*
+import kotlinx.android.synthetic.main.fragment_now_friends.*
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
-import com.thing.now.fragment.InviteFragment
-import com.thing.now.fragment.OnboardingFragment
-import com.thing.now.fragment.UserAddFragment
+import com.thing.now.model.Task
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.circle_timer.*
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig
@@ -28,45 +27,14 @@ import java.util.*
 import kotlin.concurrent.timerTask
 
 
-class MainActivity : AppActivity(), View.OnClickListener,
-    User.OnUserAddListener, UserAddFragment.OnUserResolveListener {
-
-    override fun onUserResolve(enableBtn: Boolean) {
-        if (enableBtn) {
-            settleFriends()
-        }
-    }
-
-    override fun onUserAdd(user: User) {
-        toast(getString(R.string.invite_link_user_added))
-        nowFriendsRecyclerView.adapter?.notifyDataSetChanged()
-    }
+class MainActivity : AppActivity(), View.OnClickListener {
 
     companion object {
         const val TAG = "MainActivity"
     }
 
     override fun onClick(v: View?) {
-        if (supportFragmentManager.fragments.size > 0) {
-            supportFragmentManager.popBackStack()
-            return
-        }
         when (v!!.id) {
-            R.id.sendInviteBtn -> {
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.fragmentOptionContainer, InviteFragment())
-                    .addToBackStack(getString(R.string.friends_menu_tag))
-                    .commit()
-            }
-            R.id.addFriendBtn -> {
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.fragmentOptionContainer, UserAddFragment())
-                    .addToBackStack(getString(R.string.friends_menu_tag))
-                    .commit()
-            }
-            R.id.sortBtn -> {
-                //TODO
-            }
             R.id.appInfoBtn -> {
                 loadOnboarding()
             }
@@ -96,19 +64,8 @@ class MainActivity : AppActivity(), View.OnClickListener,
                     .setView(editText).show()
             }
             R.id.circleTimer -> {
-                settleTasks()
+                if (NowHelper.timeElapsed() == null) startTask() else endTask()
             }
-        }
-    }
-
-    private fun settleTasks() {
-        var elapsed = NowHelper.timeElapsed()
-        if (elapsed == null) {
-            //no timer running start timer
-            startTask()
-        } else {
-            //timer is running stop it
-            startTask(false)
         }
     }
 
@@ -134,38 +91,50 @@ class MainActivity : AppActivity(), View.OnClickListener,
     }
 
 
-    fun startTask(b: Boolean = true) {
-        if (b) {
-            val editText = EditText(this).apply {
-                inputType = InputType.TYPE_CLASS_TEXT
-                hint = context.getString(R.string.task_name_hint)
-            }
-            AlertDialog.Builder(this)
-                .setTitle(getString(R.string.task_start))
-                .setPositiveButton(getString(R.string.start_timer)) { _, _ ->
-                    var str = editText.text.toString()
-                    if (str.isEmpty()) {
-                        editText.error = getString(R.string.task_invalid)
-                        str = getString(R.string.task_default_name)
-                    }
-                    val callback = NowHelper.startTask(str)
-                    if (callback == null) {
-                        toast(getString(R.string.task_unknown_error))
-                        return@setPositiveButton
-                    }
-                    callback.addOnSuccessListener {
-                        startTimer((Date().time - NowHelper.user!!.task!!.startedOn.time).div(1000))
-                        userStatus.text = str
-                    }.addOnFailureListener {
-                        toast("starting task failed")
-                    }
+    fun startTask() {
+        load(true)
+        val editText = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_TEXT
+            hint = context.getString(R.string.task_name_hint)
+        }
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.task_start))
+            .setPositiveButton(getString(R.string.start_timer)) { _, _ ->
+                var str = editText.text.toString()
+                if (str.isEmpty()) {
+                    editText.error = getString(R.string.task_invalid)
+                    str = getString(R.string.task_default_name)
                 }
-                .setView(editText).show()
-        } else {
+                val callback = NowHelper.startTask(str)
+                if (callback == null) {
+                    toast(getString(R.string.task_unknown_error))
+                    load(false)
+                    return@setPositiveButton
+                }
+                callback.addOnSuccessListener {
+                    //                    load(false)
+                    resumeTask()
+                }.addOnFailureListener {
+                    //                    load(false)
+                    toast("starting task failed")
+                }
+            }
+            .setView(editText).show()
+    }
+
+    private fun resumeTask() {
+        val task = NowHelper.user?.task ?: return
+        startTimer((Date().time - task.startedOn.time).div(1000))
+        userStatus.text = task.name
+    }
+
+
+    private fun endTask() {
+        AlertDialog.Builder(this).setTitle(getString(R.string.confirm_task_end)).setPositiveButton("Ok") { _, _ ->
             val callback = NowHelper.endTask()
             if (callback == null) {
                 toast(getString(R.string.task_stop_error))
-                return
+                return@setPositiveButton
             }
             callback.addOnSuccessListener {
                 stopTimer()
@@ -175,6 +144,13 @@ class MainActivity : AppActivity(), View.OnClickListener,
             }.addOnFailureListener {
                 toast(getString(R.string.task_network_error))
             }
+        }.show()
+    }
+
+    private fun settleTasks() {
+        val elapsedTime = NowHelper.timeElapsed()
+        if (elapsedTime != null) {
+            resumeTask()
         }
     }
 
@@ -188,22 +164,8 @@ class MainActivity : AppActivity(), View.OnClickListener,
         //name
         userName.text = if (user.name.isEmpty()) getString(R.string.default_user_name) else user.name
         userStatus.text = if (user.status.isEmpty()) getString(R.string.user_status_idle) else user.status
-        settleTasks()
         load(false)
-    }
-
-    private fun settleFriends() {
-        loadFriends()
-        NowHelper.friendList {
-            loadFriends(false)
-            if (it == null) {
-                emptyList.visibility = View.VISIBLE
-                return@friendList
-            }
-            emptyList.visibility = View.GONE
-            nowFriendsRecyclerView.adapter = NowFriendsAdapter(this, it)
-        }
-        nowFriendsRecyclerView.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
+        settleTasks()
     }
 
     private fun loadOnboarding() {
@@ -212,6 +174,12 @@ class MainActivity : AppActivity(), View.OnClickListener,
                 enterTransition = Fade(Fade.MODE_IN)
             })
             .addToBackStack(getString(R.string.onboarding_fragment_tag))
+            .commit()
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.bottomFrameLayout, AcknowledgementsFragment().apply {
+                enterTransition = Fade(Fade.MODE_IN)
+            })
+            .addToBackStack(getString(R.string.onboarding_fragment_tag)) //FIXME double bach button bug
             .commit()
     }
 
@@ -241,7 +209,7 @@ class MainActivity : AppActivity(), View.OnClickListener,
                 } else {
                     Log.w(MainActivity.TAG, "signInAnonymously:failure", task.exception)
                     show(getString(R.string.app_internet_error), DialogInterface.OnClickListener { _, _ ->
-                        load(false)
+                        //                        load(false)
                         recreate()//FIXME rerun network operation
                     })
                 }
@@ -266,13 +234,14 @@ class MainActivity : AppActivity(), View.OnClickListener,
     }
 
     fun load(shouldLoadUser: Boolean = true) {
-        progressBar.isIndeterminate = shouldLoadUser
-        progressBar.visibility = if (shouldLoadUser) View.VISIBLE else View.GONE
-    }
+//        progressBar.isIndeterminate = shouldLoadUser
+//        progressBar.visibility = if (shouldLoadUser) View.VISIBLE else View.GONE
 
-    fun loadFriends(shouldLoadFriends: Boolean = true) {
-        friendsProgressBar.isIndeterminate = shouldLoadFriends
-        friendsProgressBar.visibility = if (shouldLoadFriends) View.VISIBLE else View.GONE
+        if (shouldLoadUser) {
+            userStatus.text = getString(R.string.loading_main)
+        } else {
+            userStatus.text = NowHelper.user?.task?.name ?: getString(R.string.task_default_name)
+        }
     }
 
     private fun loadUser() {
@@ -290,9 +259,6 @@ class MainActivity : AppActivity(), View.OnClickListener,
 
                 //register clicks
                 userName.setOnClickListener(this)
-                sendInviteBtn.setOnClickListener(this)
-                addFriendBtn.setOnClickListener(this)
-                sortBtn.setOnClickListener(this)
                 circleTimer.setOnClickListener(this)
             }?.addOnFailureListener {
                 load()
@@ -303,5 +269,12 @@ class MainActivity : AppActivity(), View.OnClickListener,
             show(getString(R.string.app_network_unreachable_error),
                 DialogInterface.OnClickListener { _, _ -> finish() })
         }
+    }
+
+    private fun settleFriends() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.bottomFrameLayout, NowFriendsFragment().apply {
+                enterTransition = Fade(Fade.MODE_IN)
+            }).commit()
     }
 }

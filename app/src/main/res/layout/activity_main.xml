@@ -8,19 +8,14 @@
         tools:context=".MainActivity">
     <include layout="@layout/content_main"/>
 
-    <include
-            layout="@layout/now_friends_fragment"/>
 
     <FrameLayout
             android:id="@+id/onboardingFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
-    <ProgressBar
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:id="@+id/progressBar"
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <!--<Space android:layout_width="wrap_content" android:layout_height="128dp"/>-->
 
+
+    <include layout="@layout/bottom_sheet"/>
 </android.support.design.widget.CoordinatorLayout>
