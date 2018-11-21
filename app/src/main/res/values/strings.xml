@@ -25,18 +25,19 @@
     <string name="enter_invite_link">Enter invite link</string>
     <string name="add_friend">Add friend</string>
 
-    <string name="onboarding_fragment_tag">ONBOARDING_FRAG</string>
+    <string name="main_tag">MAIN_FRAG_TAG</string>
+    <string name="bottom_sheet_tag">BOTTOM_SHEET_FRAG_TAG</string>
     <string name="invite_link_invalid">Please copy a valid invite link, which can be requested from a friend</string>
     <string name="invite_link_user_added">User added successfully</string>
     <string name="invite_link_error">Invite link invalid or network error</string>
     <string name="default_user_name">Noobie</string>
     <string name="app_internet_error">No Internet, please try again later</string>
     <string name="app_fatal_error">Restart application, fatal error</string>
-    <string name="app_unknown_error">Unknown error occured</string>
+    <string name="app_unknown_error">Unknown error occurred</string>
     <string name="app_network_unreachable_error">Cannot communicate with servers, restart application</string>
     <string name="invite_link_empty">Invite link not available from clipboard</string>
     <string name="user_status_idle">Idle</string>
-    <string name="start_timer">Start</string>
+    <string name="start_timer">Do</string>
     <string name="friends_menu_tag">FRIENDS_MENU</string>
 
     <string name="user_add_unknow_error">Unknown error occurred</string>
@@ -45,7 +46,7 @@
     <string name="task_name_hint">Default value is Something</string>
     <string name="task_default_name">Something</string>
     <string name="task_invalid">Invalid task</string>
-    <string name="task_start">What are doing now?</string>
+    <string name="task_start">What are you planning to do?</string>
     <string name="task_unknown_error">Retreival error</string>
     <string name="task_stop_error">Cannot stop timer, try again later</string>
     <string name="task_network_error">Network error, try again later</string>
@@ -53,6 +54,10 @@
     <string name="confirm_task_end">Do you really want to stop?</string>
     <string name="reset_user">Reset User</string>
     <string name="acknowledgements">Acknowledgements</string>
+
+    <string name="ack_os_used_header">Open source libraries used</string>
+    <string name="app_license_header">Open source license</string>
+    <string name="ack_icons_used_header">Icons used</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_now_friends.*
 class NowFriendsFragment : Fragment(), View.OnClickListener {
 
     private fun onUserResolve(enableBtn: Boolean) {
+        loadau(false)
         if (enableBtn) {
             settleFriends()
         }
@@ -89,13 +90,19 @@ class NowFriendsFragment : Fragment(), View.OnClickListener {
 
 
     fun starti() {
-
+        loadi()
         NowHelper.createConnection().addOnSuccessListener {
-            toast(getString(R.string.invite_key_copied))
             linkToClipboard(it.id)
+            toast(getString(R.string.invite_key_copied))
+            loadi(false)
         }.addOnFailureListener {
             toast(getString(R.string.invite_error_msg))
+            loadi(false)
         }
+    }
+
+    private fun loadi(b:Boolean=true) {
+        sendInviteBtn.isEnabled = !b
     }
 
     fun toast(message: String) {
@@ -104,8 +111,11 @@ class NowFriendsFragment : Fragment(), View.OnClickListener {
     /////////
     // user add
 
+    private fun loadau(b:Boolean=true) {
+        addFriendBtn.isEnabled = !b
+    }
     fun startau() {
-
+        loadau()
         var clipboard =
             context?.getSystemService(AppCompatActivity.CLIPBOARD_SERVICE) as android.content.ClipboardManager
         var inviteLink: String? = clipboard.primaryClip?.getItemAt(0)?.text as String?
@@ -116,7 +126,7 @@ class NowFriendsFragment : Fragment(), View.OnClickListener {
         onUserResolve(false)
         var callback = NowHelper.completeConnection(inviteLink)
         if (callback == null) {
-            onUserResolve(true)
+            onUserResolve(false)
             toast(context!!.getString(R.string.invite_link_invalid))
             return
         }
@@ -124,7 +134,7 @@ class NowFriendsFragment : Fragment(), View.OnClickListener {
             toast(context!!.getString(R.string.invite_link_user_added))
             onUserResolve(true)
         }.addOnFailureListener {
-            onUserResolve(true)
+            onUserResolve(false)
             toast(context!!.getString(R.string.invite_link_error))
         }
     }

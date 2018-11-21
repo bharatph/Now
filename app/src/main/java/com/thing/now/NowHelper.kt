@@ -118,15 +118,6 @@ object NowHelper {
         return usersRef.document(uid).set(user)
     }
 
-    interface ConnectionCreatedListener {
-        fun onConnectionCreate()
-    }
-
-
-    interface OnUsersAdd {
-        fun onUsersAdd(friends: ArrayList<User>?)
-    }
-
     fun friendList(l: (ArrayList<User>?) -> Unit) {
         var friends: ArrayList<User> = ArrayList()
         if (user!!.connections.size == 0) {

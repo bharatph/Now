@@ -6,16 +6,20 @@
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
-    <include layout="@layout/content_main"/>
 
+    <LinearLayout android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+        <FrameLayout
+                android:id="@+id/mainFrameLayout"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"/>
 
-    <FrameLayout
-            android:id="@+id/onboardingFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <Space android:layout_width="wrap_content"
+               android:layout_height="128dp"/>
 
-    <!--<Space android:layout_width="wrap_content" android:layout_height="128dp"/>-->
-
+    </LinearLayout>
 
     <include layout="@layout/bottom_sheet"/>
 </android.support.design.widget.CoordinatorLayout>
