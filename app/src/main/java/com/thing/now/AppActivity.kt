@@ -29,6 +29,7 @@ open class AppActivity : AppCompatActivity() {
         }
     }
 
+
     fun show(
         message: String,
         listener: DialogInterface.OnClickListener? = null,
@@ -39,9 +40,6 @@ open class AppActivity : AppCompatActivity() {
             .setMessage(message).create().show()
     }
 
-    fun toast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
-    }
 
     fun toggleTheme() {
         isDark = !isDark

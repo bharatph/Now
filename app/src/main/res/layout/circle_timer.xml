@@ -3,6 +3,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+
     <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/circleTimer"
             android:layout_width="match_parent"
@@ -11,8 +12,7 @@
             android:minWidth="128dp"
             android:layout_margin="@dimen/margin_medium"
             android:padding="@dimen/margin_smallest"
-            android:src="@android:color/white"
-            android:elevation="@dimen/elevation_medium"/>
+            android:src="@android:color/white"/>
 
     <TextView
             android:elevation="@dimen/elevation_medium"
@@ -38,7 +38,6 @@
             android:id="@+id/userStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
-
 
 
 </RelativeLayout>

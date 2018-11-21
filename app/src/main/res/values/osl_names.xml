@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="osl_names">
+        <item>Firebase by Google</item>
+        <item>FirebaseAuth by Google</item>
+        <item>Firestore by Google</item>
+        <item>RecyclerView from Android Developers</item>
+    </string-array>
+</resources>
