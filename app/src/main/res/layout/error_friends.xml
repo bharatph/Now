@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+              tools:showIn="@layout/fragment_now_friends"
+              android:alpha="0.3"
+              android:layout_centerInParent="true"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:layout_width="match_parent" android:layout_height="match_parent">
+    <ImageView
+            android:src="@drawable/ic_cloud_error"
+            android:layout_width="256dp" android:layout_height="256dp"/>
+    <TextView
+            android:textStyle="bold"
+            android:text="@string/no_friends" android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+</LinearLayout>

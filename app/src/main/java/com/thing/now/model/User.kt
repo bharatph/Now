@@ -11,8 +11,18 @@ data class User(
 ) {
     constructor() : this(
         "",
-        "Name",
-        "Topic",
+        "",
+        "",
+        "",
+        null,
+        ArrayList<String>(),
+        ArrayList<String>()
+    )
+
+    constructor(id: String, name: String) : this(
+        id,
+        name,
+        "",
         "",
         null,
         ArrayList<String>(),

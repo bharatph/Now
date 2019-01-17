@@ -9,9 +9,10 @@ import android.support.v7.app.AppCompatActivity
 import android.text.InputType
 import android.widget.EditText
 import android.widget.Toast
+import org.greenrobot.eventbus.EventBus
 
 @SuppressLint("Registered")
-open class AppActivity : AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
 
     private var initialized = false
     var isFirstTime = true
@@ -29,18 +30,6 @@ open class AppActivity : AppCompatActivity() {
         }
     }
 
-
-    fun show(
-        message: String,
-        listener: DialogInterface.OnClickListener? = null,
-        dismissListener: DialogInterface.OnDismissListener? = null
-    ) {
-        AlertDialog.Builder(this).setPositiveButton("Ok", listener)
-            .setOnDismissListener(dismissListener)
-            .setMessage(message).create().show()
-    }
-
-
     fun toggleTheme() {
         isDark = !isDark
         recreate()
@@ -49,6 +38,17 @@ open class AppActivity : AppCompatActivity() {
     fun toggleFont() {
         isFontSerif = !isFontSerif
         recreate()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (!EventBus.getDefault().isRegistered(this))
+            EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
     }
 
     override fun onPause() {

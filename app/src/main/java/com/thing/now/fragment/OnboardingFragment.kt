@@ -3,17 +3,15 @@ package com.thing.now.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
 import android.transition.Fade
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.thing.now.R
-import com.thing.now.listener.OnSwitchListener
 import kotlinx.android.synthetic.main.fragment_onboarding.*
 
 class OnboardingFragment : Fragment() {
-    private var listener: OnSwitchListener? = null
+    private var listener: View.OnClickListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return LayoutInflater.from(context).inflate(R.layout.fragment_onboarding, container, false)
@@ -21,7 +19,7 @@ class OnboardingFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnSwitchListener) {
+        if (context is View.OnClickListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnSwitchListener")
@@ -35,12 +33,8 @@ class OnboardingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fragmentManager?.beginTransaction()
-            ?.replace(R.id.bottomFrameLayout, AcknowledgementsFragment().apply {
-                enterTransition = Fade(Fade.MODE_IN)
-            })?.commit()
         onboardingRootView.setOnClickListener {
-            listener?.onSwitch(R.id.bottomFrameLayout) //FIXME?
+            listener?.onClick(onboardingRootView)
         }
     }
 }

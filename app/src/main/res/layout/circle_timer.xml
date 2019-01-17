@@ -22,7 +22,8 @@
             android:text="@string/start_timer"
             android:textSize="@dimen/text_xxxlarge"
             android:id="@+id/nowTimer"
-            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
 
@@ -34,7 +35,7 @@
             android:layout_below="@+id/nowTimer"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
-            android:text="@string/user_status_idle"
+            android:text="@string/task_default_name"
             android:id="@+id/userStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

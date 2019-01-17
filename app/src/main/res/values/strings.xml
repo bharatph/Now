@@ -59,6 +59,6 @@
     <string name="app_license_header">Open source license</string>
     <string name="ack_icons_used_header">Icons used</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="time_format">"%1$d : %2$d"</string>
+    <string name="user_not_found">Cannot find user, check your internet connection or reset your app</string>
 </resources>

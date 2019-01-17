@@ -12,9 +12,8 @@ import com.thing.now.model.User
 import kotlinx.android.synthetic.main.user_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
-class NowFriendsAdapter(var context: Context, var firestoreList: ArrayList<User>) :
+class NowFriendsAdapter(var context: Context, var list: List<User>) :
     RecyclerView.Adapter<NowFriendsAdapter.NowFriendViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): NowFriendViewHolder {
         val viewGroup = LayoutInflater.from(context).inflate(R.layout.user_item, p0, false)
@@ -22,11 +21,11 @@ class NowFriendsAdapter(var context: Context, var firestoreList: ArrayList<User>
     }
 
     override fun getItemCount(): Int {
-        return firestoreList.size
+        return list.size
     }
 
     override fun onBindViewHolder(p0: NowFriendViewHolder, p1: Int) {
-        val user = firestoreList[p1]
+        val user: User = list[p1]
         if (user.dp.isBlank()) {
 
         } else {
